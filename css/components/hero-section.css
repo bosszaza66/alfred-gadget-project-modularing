@@ -1,0 +1,55 @@
+/**
+ * Hero Section Component Styles
+ * Large looping text banner
+ */
+
+.hero-section {
+  width: 100%;
+  padding: var(--space-3xl) 0;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+  overflow: hidden;
+}
+
+.hero-banner {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-banner-text {
+  display: flex;
+  gap: var(--space-3xl);
+  animation: scroll-banner 30s linear infinite;
+  white-space: nowrap;
+}
+
+.hero-banner-text span {
+  font-size: clamp(2rem, 8vw, 5rem);
+  font-weight: var(--font-weight-bold);
+  color: transparent;
+  -webkit-text-stroke: 2px var(--accent-green);
+  text-stroke: 2px var(--accent-green);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+@keyframes scroll-banner {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: var(--space-2xl) 0;
+  }
+
+  .hero-banner-text span {
+    -webkit-text-stroke: 1px var(--accent-green);
+    text-stroke: 1px var(--accent-green);
+  }
+}

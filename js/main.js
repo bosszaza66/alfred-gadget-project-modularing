@@ -5,9 +5,13 @@
 
 import { initTheme } from "./utils/theme.js"
 import { renderNavbar } from "./components/Navbar.js"
+import { renderCategoryMenu } from "./components/CategoryMenu.js"
+import { renderHeroSection } from "./components/HeroSection.js"
+import { renderVisionBlocks } from "./components/VisionBlocks.js"
 import { initProductGrid } from "./components/ProductGrid.js"
 import { initSidebar } from "./components/Sidebar.js"
 import { renderFooter } from "./components/Footer.js"
+import { renderFloatingButtons } from "./components/FloatingButtons.js"
 import { CONFIG } from "./config.js"
 
 /**
@@ -19,11 +23,15 @@ function init() {
   // Initialize theme
   initTheme()
 
-  // Render components
+  // Render components in order
   renderNavbar()
+  renderCategoryMenu()
+  renderHeroSection()
+  renderVisionBlocks()
   initSidebar()
   initProductGrid()
   renderFooter()
+  renderFloatingButtons()
 
   console.log("[v0] Application initialized successfully")
 }

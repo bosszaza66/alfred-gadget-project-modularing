@@ -2,15 +2,48 @@
  * Footer Component Styles
  */
 
-/* Updated footer styles to match wireframe layout */
+/* Added scrolling banner at top of footer */
 .footer {
   background-color: var(--bg-primary);
   border-top: 1px solid var(--border);
-  padding: var(--space-2xl) var(--container-padding);
+  padding: 0;
   margin-top: auto;
   width: 100%;
   transition: background-color var(--transition-base), border-color var(--transition-base);
 }
+
+.footer-scrolling-banner {
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--bg-secondary);
+  padding: var(--space-xl) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.footer-banner-text {
+  display: flex;
+  gap: var(--space-3xl);
+  animation: scroll-footer-banner 20s linear infinite;
+  white-space: nowrap;
+}
+
+.footer-banner-text span {
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@keyframes scroll-footer-banner {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-20%);
+  }
+}
+/* </CHANGE> */
 
 .footer-container {
   max-width: var(--max-width);
@@ -18,6 +51,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
+  padding: var(--space-2xl) var(--container-padding);
 }
 
 .footer-content {
@@ -69,10 +103,17 @@
   color: var(--text-secondary);
   font-size: var(--font-size-xs);
 }
-/* </CHANGE> */
 
 /* Mobile */
 @media (max-width: 768px) {
+  .footer-scrolling-banner {
+    padding: var(--space-lg) 0;
+  }
+
+  .footer-banner-text span {
+    font-size: clamp(1rem, 6vw, 2rem);
+  }
+
   .footer-content {
     grid-template-columns: 1fr;
     gap: var(--space-xl);

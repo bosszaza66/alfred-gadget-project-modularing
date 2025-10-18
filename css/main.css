@@ -10,8 +10,12 @@
 
 /* Component Styles */
 @import "./components/navbar.css";
+@import "./components/category-menu.css";
 @import "./components/theme-toggle.css";
+@import "./components/hero-section.css";
+@import "./components/vision-blocks.css";
 @import "./components/product-grid.css";
 @import "./components/product-card.css";
 @import "./components/sidebar.css";
 @import "./components/footer.css";
+@import "./components/floating-buttons.css";

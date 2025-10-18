@@ -1,0 +1,59 @@
+/**
+ * Floating Buttons Component Styles
+ * Back to top and support buttons
+ */
+
+.floating-buttons {
+  position: fixed;
+  bottom: var(--space-xl);
+  right: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  z-index: 999;
+}
+
+.floating-button {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--accent-green);
+  color: white;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px var(--shadow-hover);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.floating-button:hover {
+  background-color: var(--accent-green-hover);
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px var(--shadow-hover);
+}
+
+.floating-button:active {
+  transform: scale(0.95);
+}
+
+.back-to-top {
+  background-color: var(--text-primary);
+}
+
+.back-to-top:hover {
+  background-color: var(--text-secondary);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .floating-buttons {
+    bottom: var(--space-lg);
+    right: var(--space-lg);
+  }
+
+  .floating-button {
+    width: 48px;
+    height: 48px;
+  }
+}

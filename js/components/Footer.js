@@ -22,6 +22,24 @@ export function createFooter() {
     className: "footer-container",
   })
 
+  const scrollingBanner = createElement("div", {
+    className: "footer-scrolling-banner",
+  })
+
+  const bannerText = createElement("div", {
+    className: "footer-banner-text",
+    innerHTML: `
+      <span>${CONFIG.APP.NAME}</span>
+      <span>${CONFIG.APP.NAME}</span>
+      <span>${CONFIG.APP.NAME}</span>
+      <span>${CONFIG.APP.NAME}</span>
+      <span>${CONFIG.APP.NAME}</span>
+    `,
+  })
+
+  scrollingBanner.appendChild(bannerText)
+  container.appendChild(scrollingBanner)
+
   // Footer content sections
   const content = createElement("div", {
     className: "footer-content",
