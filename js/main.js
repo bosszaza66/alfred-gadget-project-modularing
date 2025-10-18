@@ -6,6 +6,8 @@
 import { initTheme } from "./utils/theme.js"
 import { renderNavbar } from "./components/Navbar.js"
 import { initProductGrid } from "./components/ProductGrid.js"
+import { initSidebar } from "./components/Sidebar.js"
+import { renderFooter } from "./components/Footer.js"
 import { CONFIG } from "./config.js"
 
 /**
@@ -19,7 +21,9 @@ function init() {
 
   // Render components
   renderNavbar()
+  initSidebar()
   initProductGrid()
+  renderFooter()
 
   console.log("[v0] Application initialized successfully")
 }

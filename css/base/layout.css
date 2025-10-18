@@ -15,6 +15,14 @@ body {
   margin: 0 auto;
   padding: var(--space-xl) var(--container-padding);
   padding-top: calc(var(--navbar-height) + var(--space-xl));
+  transition: padding-left var(--transition-base); /* Added */
+}
+
+/* Desktop layout with sidebar */
+@media (min-width: 1025px) {
+  .main-content {
+    padding-left: calc(280px + var(--space-xl));
+  }
 }
 
 .footer {
