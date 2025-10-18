@@ -4,6 +4,8 @@
  */
 
 import { createElement } from "../utils/dom.js"
+import { getAllTags } from "../utils/productTags.js"
+import { store } from "../state/store.js"
 
 /**
  * Create sidebar element
@@ -63,6 +65,20 @@ export function createSidebar() {
     ],
   })
 
+  const tagsSection = createElement("div", {
+    className: "sidebar-section",
+    children: [
+      createElement("h3", {
+        className: "sidebar-section-title",
+        textContent: "Tags",
+      }),
+      createElement("div", {
+        className: "filter-group",
+        id: "tags-filters",
+      }),
+    ],
+  })
+
   // Price filter section
   const priceSection = createElement("div", {
     className: "sidebar-section",
@@ -108,6 +124,7 @@ export function createSidebar() {
 
   sidebar.appendChild(header)
   sidebar.appendChild(categorySection)
+  sidebar.appendChild(tagsSection)
   sidebar.appendChild(priceSection)
 
   return sidebar
@@ -129,7 +146,6 @@ function createFilterOption(value, label) {
       type: "checkbox",
       id: `filter-${value}`,
       value: value,
-      name: "category",
     },
   })
 
@@ -279,4 +295,45 @@ export function initSidebar() {
   overlayElement?.addEventListener("click", toggleSidebar)
 
   edgeToggleButton?.addEventListener("click", toggleSidebarCollapse)
+}
+
+/**
+ * Update tags filter based on available products
+ * @param {Array} products - Array of products
+ */
+export function updateTagsFilter(products) {
+  const tagsContainer = document.getElementById("tags-filters")
+  if (!tagsContainer) return
+
+  const allTags = getAllTags(products)
+
+  tagsContainer.innerHTML = ""
+
+  allTags.forEach((tag) => {
+    const option = createFilterOption(tag.toLowerCase().replace(/\s+/g, "-"), tag)
+    option.querySelector("input").setAttribute("name", "tag")
+    tagsContainer.appendChild(option)
+  })
+
+  // Add event listeners for tag filters
+  const tagCheckboxes = tagsContainer.querySelectorAll('input[type="checkbox"]')
+  tagCheckboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", () => {
+      const selectedTags = Array.from(tagsContainer.querySelectorAll('input[type="checkbox"]:checked')).map(
+        (cb) => cb.value,
+      )
+
+      const { filters } = store.getState()
+      store.setState({
+        filters: {
+          ...filters,
+          tags: selectedTags,
+        },
+      })
+
+      // Trigger filter event
+      const event = new CustomEvent("filter")
+      document.dispatchEvent(event)
+    })
+  })
 }

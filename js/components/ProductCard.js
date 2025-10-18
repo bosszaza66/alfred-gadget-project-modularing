@@ -5,6 +5,7 @@
 
 import { createElement } from "../utils/dom.js"
 import { openModal } from "./Modal.js"
+import { generateProductTags } from "../utils/productTags.js"
 
 /**
  * Generate star rating HTML
@@ -37,6 +38,39 @@ function generateVariations(product) {
 }
 
 /**
+ * Get drag icon based on category
+ * @param {string} category - Product category
+ * @returns {string} SVG icon
+ */
+function getDragIcon(category) {
+  const icons = {
+    electronics: `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+    </svg>`,
+    jewelery: `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+    </svg>`,
+    "men's clothing": `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+    </svg>`,
+    "women's clothing": `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+    </svg>`,
+  }
+
+  return (
+    icons[category] ||
+    `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+    </svg>`
+  )
+}
+
+/**
  * Create product card element
  * @param {Object} product - Product data
  * @returns {HTMLElement}
@@ -46,13 +80,27 @@ export function createProductCard(product) {
     className: "product-card",
     attributes: {
       "data-product-id": product.id,
+      draggable: "true",
     },
+  })
+
+  const tags = generateProductTags(product)
+
+  const tagsContainer = createElement("div", {
+    className: "product-card-tags",
+    children: tags.slice(0, 2).map((tag) =>
+      createElement("span", {
+        className: "product-tag",
+        textContent: tag,
+      }),
+    ),
   })
 
   // Image container
   const imageContainer = createElement("div", {
     className: "product-card-image-container",
     children: [
+      tagsContainer,
       createElement("img", {
         className: "product-card-image",
         attributes: {
@@ -154,6 +202,30 @@ export function createProductCard(product) {
   content.appendChild(footer)
   card.appendChild(imageContainer)
   card.appendChild(content)
+
+  card.addEventListener("dragstart", (e) => {
+    e.dataTransfer.effectAllowed = "copy"
+    e.dataTransfer.setData("application/json", JSON.stringify(product))
+
+    // Create custom drag icon
+    const dragIcon = createElement("div", {
+      className: "drag-icon",
+      innerHTML: getDragIcon(product.category),
+    })
+    document.body.appendChild(dragIcon)
+
+    e.dataTransfer.setDragImage(dragIcon, 20, 20)
+
+    setTimeout(() => {
+      dragIcon.remove()
+    }, 0)
+
+    card.classList.add("dragging")
+  })
+
+  card.addEventListener("dragend", () => {
+    card.classList.remove("dragging")
+  })
 
   card.addEventListener("click", (e) => {
     // Prevent navigation if clicking action buttons

@@ -7,9 +7,25 @@ class Store {
   constructor() {
     this.state = {
       products: [],
+      filteredProducts: [],
       loading: false,
       error: null,
       theme: "light",
+      cart: [],
+      compareList: [],
+      favorites: [],
+      filters: {
+        categories: [],
+        tags: [],
+        priceMin: null,
+        priceMax: null,
+      },
+      pagination: {
+        currentPage: 1,
+        itemsPerPage: 12,
+        totalPages: 1,
+      },
+      searchQuery: "",
     }
     this.listeners = []
   }

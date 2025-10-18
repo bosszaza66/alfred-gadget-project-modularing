@@ -6,6 +6,103 @@
 import { createElement } from "../utils/dom.js"
 import { createThemeToggle } from "./ThemeToggle.js"
 import { CONFIG } from "../config.js"
+import { store } from "../state/store.js"
+
+/**
+ * Create search autocomplete dropdown
+ * @returns {HTMLElement}
+ */
+function createAutocompleteDropdown() {
+  return createElement("div", {
+    className: "search-autocomplete hidden",
+    id: "search-autocomplete",
+    attributes: {
+      role: "listbox",
+    },
+  })
+}
+
+/**
+ * Show autocomplete suggestions
+ * @param {string} query - Search query
+ * @param {Array} products - All products
+ */
+function showAutocompleteSuggestions(query, products) {
+  const dropdown = document.getElementById("search-autocomplete")
+  if (!dropdown || !query) {
+    dropdown?.classList.add("hidden")
+    return
+  }
+
+  const lowerQuery = query.toLowerCase()
+  const matches = products.filter((product) => product.title.toLowerCase().includes(lowerQuery)).slice(0, 5)
+
+  if (matches.length === 0) {
+    dropdown.classList.add("hidden")
+    return
+  }
+
+  dropdown.innerHTML = ""
+
+  matches.forEach((product) => {
+    const item = createElement("div", {
+      className: "autocomplete-item",
+      attributes: {
+        role: "option",
+        "data-product-id": product.id,
+      },
+    })
+
+    const img = createElement("img", {
+      className: "autocomplete-image",
+      attributes: {
+        src: product.image,
+        alt: product.title,
+      },
+    })
+
+    const title = createElement("div", {
+      className: "autocomplete-title",
+    })
+
+    // Highlight matching text
+    const titleText = product.title
+    const matchIndex = titleText.toLowerCase().indexOf(lowerQuery)
+    if (matchIndex !== -1) {
+      const before = titleText.substring(0, matchIndex)
+      const match = titleText.substring(matchIndex, matchIndex + query.length)
+      const after = titleText.substring(matchIndex + query.length)
+
+      title.innerHTML = `${before}<mark>${match}</mark>${after}`
+    } else {
+      title.textContent = titleText
+    }
+
+    const price = createElement("div", {
+      className: "autocomplete-price",
+      textContent: `$${product.price.toFixed(2)}`,
+    })
+
+    item.appendChild(img)
+    item.appendChild(title)
+    item.appendChild(price)
+
+    item.addEventListener("click", () => {
+      // Filter to show only this product
+      store.setState({ searchQuery: product.title })
+      document.getElementById("search-input").value = product.title
+      dropdown.classList.add("hidden")
+
+      // Trigger search
+      const event = new CustomEvent("search", { detail: { query: product.title } })
+      document.dispatchEvent(event)
+    })
+
+    dropdown.appendChild(item)
+  })
+
+  dropdown.classList.remove("hidden")
+}
 
 /**
  * Create search bar
@@ -42,28 +139,97 @@ function createSearchBar() {
     },
   })
 
+  const autocompleteDropdown = createAutocompleteDropdown()
+
   searchForm.appendChild(searchIcon)
   searchForm.appendChild(searchInput)
   searchContainer.appendChild(searchForm)
+  searchContainer.appendChild(autocompleteDropdown)
 
   searchForm.addEventListener("submit", (e) => {
     e.preventDefault()
     const query = searchInput.value.trim()
     if (query) {
-      console.log("[v0] Search query:", query)
-      // TODO: Implement search functionality
+      store.setState({ searchQuery: query })
+      document.getElementById("search-autocomplete")?.classList.add("hidden")
+
+      // Trigger search event
+      const event = new CustomEvent("search", { detail: { query } })
+      document.dispatchEvent(event)
     }
   })
 
   searchInput.addEventListener("input", (e) => {
     const query = e.target.value.trim()
-    if (query.length > 2) {
-      console.log("[v0] Search input:", query)
-      // TODO: Implement live search
+    const { products } = store.getState()
+
+    if (query.length > 1) {
+      showAutocompleteSuggestions(query, products)
+      store.setState({ searchQuery: query })
+
+      // Trigger search event
+      const event = new CustomEvent("search", { detail: { query } })
+      document.dispatchEvent(event)
+    } else {
+      document.getElementById("search-autocomplete")?.classList.add("hidden")
+      if (query.length === 0) {
+        store.setState({ searchQuery: "" })
+        const event = new CustomEvent("search", { detail: { query: "" } })
+        document.dispatchEvent(event)
+      }
+    }
+  })
+
+  // Close dropdown when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!searchContainer.contains(e.target)) {
+      document.getElementById("search-autocomplete")?.classList.add("hidden")
     }
   })
 
   return searchContainer
+}
+
+/**
+ * Add product to cart
+ * @param {Object} product - Product to add
+ */
+function addToCart(product) {
+  const { cart } = store.getState()
+  const existingItem = cart.find((item) => item.id === product.id)
+
+  if (existingItem) {
+    existingItem.quantity += 1
+  } else {
+    cart.push({ ...product, quantity: 1 })
+  }
+
+  store.setState({ cart: [...cart] })
+
+  // Update cart badge
+  const cartBadge = document.querySelector(".cart-badge")
+  if (cartBadge) {
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0)
+    cartBadge.textContent = totalItems.toString()
+  }
+
+  console.log("[v0] Product added to cart:", product.title)
+
+  // Show visual feedback
+  showCartFeedback()
+}
+
+/**
+ * Show visual feedback when item added to cart
+ */
+function showCartFeedback() {
+  const cartButton = document.querySelector(".cart-button")
+  if (cartButton) {
+    cartButton.classList.add("cart-added")
+    setTimeout(() => {
+      cartButton.classList.remove("cart-added")
+    }, 600)
+  }
 }
 
 /**
@@ -124,6 +290,31 @@ export function createNavbar() {
       }),
     ],
   })
+
+  const cartButton = actions.querySelector(".cart-button")
+  if (cartButton) {
+    cartButton.addEventListener("dragover", (e) => {
+      e.preventDefault()
+      e.dataTransfer.dropEffect = "copy"
+      cartButton.classList.add("drag-over")
+    })
+
+    cartButton.addEventListener("dragleave", () => {
+      cartButton.classList.remove("drag-over")
+    })
+
+    cartButton.addEventListener("drop", (e) => {
+      e.preventDefault()
+      cartButton.classList.remove("drag-over")
+
+      try {
+        const product = JSON.parse(e.dataTransfer.getData("application/json"))
+        addToCart(product)
+      } catch (error) {
+        console.error("[v0] Error adding product to cart:", error)
+      }
+    })
+  }
 
   container.appendChild(brand)
   container.appendChild(searchBar)
