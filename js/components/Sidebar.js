@@ -229,6 +229,7 @@ export function toggleSidebar() {
 export function toggleSidebarCollapse() {
   const sidebar = document.getElementById("sidebar")
   const edgeToggle = document.getElementById("sidebar-edge-toggle")
+  const pageWrapper = document.querySelector(".page-wrapper")
 
   if (!sidebar || !edgeToggle) return
 
@@ -236,10 +237,12 @@ export function toggleSidebarCollapse() {
 
   if (isCollapsed) {
     sidebar.classList.remove("collapsed")
+    pageWrapper?.classList.remove("sidebar-collapsed")
     edgeToggle.setAttribute("aria-expanded", "true")
     edgeToggle.setAttribute("aria-label", "Collapse sidebar")
   } else {
     sidebar.classList.add("collapsed")
+    pageWrapper?.classList.add("sidebar-collapsed")
     edgeToggle.setAttribute("aria-expanded", "false")
     edgeToggle.setAttribute("aria-label", "Expand sidebar")
   }
@@ -254,8 +257,13 @@ export function initSidebar() {
   const edgeToggle = createSidebarEdgeToggle()
   const overlay = createSidebarOverlay()
 
-  // Insert sidebar and overlay into DOM
-  document.body.appendChild(sidebar)
+  const sidebarContainer = document.getElementById("sidebar-container")
+  if (sidebarContainer) {
+    sidebarContainer.appendChild(sidebar)
+  } else {
+    document.body.appendChild(sidebar)
+  }
+
   document.body.appendChild(toggle)
   document.body.appendChild(edgeToggle)
   document.body.appendChild(overlay)
@@ -271,6 +279,4 @@ export function initSidebar() {
   overlayElement?.addEventListener("click", toggleSidebar)
 
   edgeToggleButton?.addEventListener("click", toggleSidebarCollapse)
-
-  console.log("[v0] Sidebar initialized")
 }

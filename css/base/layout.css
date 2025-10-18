@@ -2,28 +2,40 @@
  * Global Layout Styles
  */
 
+/* Updated layout to match wireframe with sidebar, main content, and footer structure */
 body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
+/* Page wrapper contains main content and footer */
+.page-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--navbar-height);
+  transition: margin-left var(--transition-base);
+}
+
+/* Desktop: adjust for sidebar */
+@media (min-width: 1025px) {
+  .page-wrapper {
+    margin-left: 280px;
+  }
+
+  .page-wrapper.sidebar-collapsed {
+    margin-left: 0;
+  }
+}
+
 .main-content {
   flex: 1;
   width: 100%;
-  max-width: var(--max-width);
-  margin: 0 auto;
+  max-width: 100%;
   padding: var(--space-xl) var(--container-padding);
-  padding-top: calc(var(--navbar-height) + var(--space-xl));
-  transition: padding-left var(--transition-base); /* Added */
 }
-
-/* Desktop layout with sidebar */
-@media (min-width: 1025px) {
-  .main-content {
-    padding-left: calc(280px + var(--space-xl));
-  }
-}
+/* </CHANGE> */
 
 .footer {
   width: 100%;
