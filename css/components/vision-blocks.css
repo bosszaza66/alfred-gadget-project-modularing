@@ -7,6 +7,8 @@
   width: 100%;
   padding: var(--space-3xl) var(--container-padding);
   background-color: var(--bg-primary);
+  display: flex;
+  justify-content: center;
 }
 
 .vision-container {
@@ -15,18 +17,23 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--space-xl);
+  justify-items: center;
+  width: 100%;
 }
 
 .vision-block {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
   padding: var(--space-xl);
   background-color: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   transition: all var(--transition-base);
+  max-width: 400px;
+  width: 100%;
 }
 
 .vision-block:hover {

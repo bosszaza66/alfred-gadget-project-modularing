@@ -19,6 +19,10 @@
   background-color: var(--bg-secondary);
   padding: var(--space-xl) 0;
   border-bottom: 1px solid var(--border);
+  /* Center the scrolling banner content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .footer-banner-text {
@@ -26,6 +30,8 @@
   gap: var(--space-3xl);
   animation: scroll-footer-banner 20s linear infinite;
   white-space: nowrap;
+  /* Ensure text is vertically centered */
+  align-items: center;
 }
 
 .footer-banner-text span {
@@ -53,6 +59,9 @@
   flex-direction: column;
   gap: var(--space-xl);
   padding: var(--space-2xl) var(--container-padding);
+  /* Center align all footer content */
+  align-items: center;
+  text-align: center;
 }
 
 .footer-content {
@@ -60,12 +69,19 @@
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--space-2xl);
   padding-bottom: var(--space-xl);
+  /* Center grid items */
+  justify-items: center;
+  width: 100%;
+  max-width: var(--max-width);
 }
 
 .footer-section {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+  /* Center align section content */
+  align-items: center;
+  text-align: center;
 }
 
 .footer-section-title {
@@ -98,6 +114,10 @@
   padding-top: var(--space-lg);
   border-top: 1px solid var(--border);
   text-align: center;
+  /* Ensure full width and centered */
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .footer-copyright {

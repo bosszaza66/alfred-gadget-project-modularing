@@ -36,11 +36,19 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column;
+  /* Center align all main content */
+  align-items: center;
+  /* </CHANGE> */
 }
 
 /* Product grid container has padding */
 .product-grid-container {
   padding: var(--space-xl) var(--container-padding);
+  /* Center the product grid and constrain width */
+  max-width: var(--max-width);
+  margin: 0 auto;
+  width: 100%;
+  /* </CHANGE> */
 }
 
 /* Utility Classes */
