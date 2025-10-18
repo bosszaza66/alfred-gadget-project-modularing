@@ -121,19 +121,29 @@
 
 .price-input {
   flex: 1;
+  min-width: 0;
+  max-width: 100px;
   padding: var(--space-sm);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-size: var(--font-size-sm);
+  -moz-appearance: textfield; /* Prevent number input spinners from causing overflow */
+}
+
+.price-input::-webkit-outer-spin-button,
+.price-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .price-separator {
   color: var(--text-secondary);
+  flex-shrink: 0;
 }
 
-/* New edge toggle button positioned at vertical center of sidebar */
+/* Edge toggle button positioned at vertical center of sidebar */
 .sidebar-edge-toggle {
   position: fixed;
   top: 50%;
@@ -149,7 +159,8 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 250ms ease;
+  /* Smooth transition for position and rotation */
+  transition: left 300ms ease, background-color 200ms ease;
   z-index: 901;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
 }
@@ -163,16 +174,17 @@
   width: 16px;
   height: 16px;
   color: var(--text-primary);
-  transition: transform 250ms ease;
+  /* Smooth rotation transition for arrow */
+  transition: transform 300ms ease;
 }
 
-/* When sidebar is collapsed, move toggle button to left edge */
+/* When sidebar is collapsed, move toggle button to left edge and rotate arrow */
 @media (min-width: 1025px) {
-  .sidebar.collapsed + .sidebar-edge-toggle {
+  .sidebar.collapsed ~ .sidebar-edge-toggle {
     left: 0;
   }
 
-  .sidebar.collapsed + .sidebar-edge-toggle svg {
+  .sidebar.collapsed ~ .sidebar-edge-toggle svg {
     transform: rotate(180deg);
   }
 }

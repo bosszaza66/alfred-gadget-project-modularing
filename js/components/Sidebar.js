@@ -237,9 +237,11 @@ export function toggleSidebarCollapse() {
   if (isCollapsed) {
     sidebar.classList.remove("collapsed")
     edgeToggle.setAttribute("aria-expanded", "true")
+    edgeToggle.setAttribute("aria-label", "Collapse sidebar")
   } else {
     sidebar.classList.add("collapsed")
     edgeToggle.setAttribute("aria-expanded", "false")
+    edgeToggle.setAttribute("aria-label", "Expand sidebar")
   }
 }
 
