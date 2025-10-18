@@ -27,6 +27,25 @@ body {
   background-color: var(--bg-secondary);
 }
 
+/* Added utility classes for visibility control */
+/* Utility Classes */
+.hidden {
+  display: none !important;
+}
+
+.visible {
+  display: block !important;
+}
+
+.flex {
+  display: flex !important;
+}
+
+.grid {
+  display: grid !important;
+}
+/* </CHANGE> */
+
 /* Loading State */
 .loading-state {
   display: flex;

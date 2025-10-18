@@ -58,19 +58,19 @@ export function $$(selector) {
 }
 
 /**
- * Show element
+ * Show element by removing hidden class
  * @param {HTMLElement} element
  */
 export function show(element) {
-  if (element) element.style.display = ""
+  if (element) element.classList.remove("hidden")
 }
 
 /**
- * Hide element
+ * Hide element by adding hidden class
  * @param {HTMLElement} element
  */
 export function hide(element) {
-  if (element) element.style.display = "none"
+  if (element) element.classList.add("hidden")
 }
 
 /**
@@ -79,6 +79,6 @@ export function hide(element) {
  */
 export function toggle(element) {
   if (element) {
-    element.style.display = element.style.display === "none" ? "" : "none"
+    element.classList.toggle("hidden")
   }
 }
