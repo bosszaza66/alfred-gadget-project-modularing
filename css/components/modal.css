@@ -54,26 +54,26 @@
 /* Close Button */
 .modal-close {
   position: absolute;
-  top: var(--space-4);
-  right: var(--space-4);
-  background-color: var(--bg-secondary);
-  border: none;
+  top: -20px;
+  right: -20px;
+  background-color: var(--accent-green);
+  border: 3px solid var(--bg-primary);
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 10;
   transition: all var(--transition-fast);
-  color: var(--text-primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .modal-close:hover {
-  background-color: var(--accent-green);
-  color: white;
-  transform: rotate(90deg);
+  background-color: var(--accent-green-hover);
+  transform: rotate(90deg) scale(1.1);
 }
 
 .modal-close:focus {
@@ -85,18 +85,62 @@
 .modal-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-6);
-  padding: var(--space-6);
+  gap: var(--space-xl);
+  padding: var(--space-xl);
 }
 
 /* Image Section */
 .modal-image-section {
   display: flex;
+  gap: var(--space-md);
+  position: relative;
+}
+
+/* Variant buttons (left side) */
+.modal-variants {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding-top: var(--space-md);
+}
+
+.modal-variant-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-variant-btn:hover {
+  border-color: var(--accent-green);
+  transform: scale(1.05);
+}
+
+.modal-variant-btn.active {
+  background-color: var(--accent-green);
+  color: white;
+  border-color: var(--accent-green);
+}
+
+/* Image container with floating buttons */
+.modal-image-container {
+  flex: 1;
+  display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--bg-secondary);
-  border-radius: var(--radius-md);
-  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  position: relative;
 }
 
 .modal-product-image {
@@ -105,11 +149,53 @@
   object-fit: contain;
 }
 
+/* Floating action buttons (right side of image) */
+.modal-floating-actions {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.modal-floating-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-floating-btn:hover {
+  background-color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modal-floating-btn.active {
+  background-color: var(--accent-green);
+  color: white;
+}
+
+.modal-floating-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
 /* Details Section */
 .modal-details-section {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
 }
 
 .modal-category {
@@ -153,6 +239,25 @@
 .modal-description {
   color: var(--text-secondary);
   line-height: 1.6;
+  margin: 0;
+}
+
+/* Product details section */
+.modal-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md) 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-details-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   margin: 0;
 }
 
@@ -213,6 +318,31 @@
   height: 20px;
 }
 
+/* Add to cart button (full width) */
+.modal-btn-cart {
+  width: 100%;
+  padding: var(--space-md) var(--space-lg);
+  background-color: var(--accent-green);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-top: auto;
+}
+
+.modal-btn-cart:hover {
+  background-color: var(--accent-green-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+}
+
+.modal-btn-cart:active {
+  transform: translateY(0);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .modal-overlay {
@@ -225,12 +355,26 @@
 
   .modal-content {
     grid-template-columns: 1fr;
-    gap: var(--space-4);
-    padding: var(--space-4);
+    gap: var(--space-lg);
+    padding: var(--space-lg);
   }
 
   .modal-image-section {
-    padding: var(--space-4);
+    flex-direction: row;
+  }
+
+  .modal-variants {
+    flex-direction: row;
+    padding-top: 0;
+  }
+
+  .modal-variant-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .modal-image-container {
+    padding: var(--space-lg);
   }
 
   .modal-product-image {
@@ -246,10 +390,20 @@
   }
 
   .modal-close {
+    top: -16px;
+    right: -16px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .modal-floating-actions {
+    top: var(--space-sm);
+    right: var(--space-sm);
+  }
+
+  .modal-floating-btn {
     width: 36px;
     height: 36px;
-    top: var(--space-2);
-    right: var(--space-2);
   }
 
   .modal-actions {
