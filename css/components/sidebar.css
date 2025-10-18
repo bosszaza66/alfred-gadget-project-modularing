@@ -12,16 +12,23 @@
   border-right: 1px solid var(--border);
   padding: var(--space-lg);
   overflow-y: auto;
-  transition: transform var(--transition-base), background-color var(--transition-base);
+  /* Using transform for smooth slide animation */
+  transition: transform 300ms ease, background-color var(--transition-base);
   z-index: 900;
 }
 
+/* Desktop: sidebar visible by default, can be collapsed */
 @media (min-width: 1025px) {
   .sidebar {
     transform: translateX(0);
   }
+
+  .sidebar.collapsed {
+    transform: translateX(-280px);
+  }
 }
 
+/* Tablet and mobile: sidebar hidden by default */
 @media (max-width: 1024px) {
   .sidebar {
     transform: translateX(-100%);
@@ -126,6 +133,58 @@
   color: var(--text-secondary);
 }
 
+/* New edge toggle button positioned at vertical center of sidebar */
+.sidebar-edge-toggle {
+  position: fixed;
+  top: 50%;
+  left: 280px;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 64px;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-left: none;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 250ms ease;
+  z-index: 901;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-edge-toggle:hover {
+  background-color: var(--bg-secondary);
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-edge-toggle svg {
+  width: 16px;
+  height: 16px;
+  color: var(--text-primary);
+  transition: transform 250ms ease;
+}
+
+/* When sidebar is collapsed, move toggle button to left edge */
+@media (min-width: 1025px) {
+  .sidebar.collapsed + .sidebar-edge-toggle {
+    left: 0;
+  }
+
+  .sidebar.collapsed + .sidebar-edge-toggle svg {
+    transform: rotate(180deg);
+  }
+}
+
+/* Hide edge toggle on mobile, use overlay toggle instead */
+@media (max-width: 1024px) {
+  .sidebar-edge-toggle {
+    display: none;
+  }
+}
+
+/* Old toggle button for mobile only */
 .sidebar-toggle {
   position: fixed;
   top: calc(var(--navbar-height) + var(--space-md));

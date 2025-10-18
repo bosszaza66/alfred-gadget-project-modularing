@@ -168,6 +168,26 @@ export function createSidebarToggle() {
 }
 
 /**
+ * Create sidebar edge toggle button
+ * @returns {HTMLElement}
+ */
+export function createSidebarEdgeToggle() {
+  return createElement("button", {
+    className: "sidebar-edge-toggle",
+    id: "sidebar-edge-toggle",
+    attributes: {
+      "aria-label": "Toggle sidebar",
+      "aria-expanded": "true",
+    },
+    innerHTML: `
+      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    `,
+  })
+}
+
+/**
  * Create sidebar overlay for mobile
  * @returns {HTMLElement}
  */
@@ -204,26 +224,51 @@ export function toggleSidebar() {
 }
 
 /**
+ * Toggle sidebar collapse on desktop
+ */
+export function toggleSidebarCollapse() {
+  const sidebar = document.getElementById("sidebar")
+  const edgeToggle = document.getElementById("sidebar-edge-toggle")
+
+  if (!sidebar || !edgeToggle) return
+
+  const isCollapsed = sidebar.classList.contains("collapsed")
+
+  if (isCollapsed) {
+    sidebar.classList.remove("collapsed")
+    edgeToggle.setAttribute("aria-expanded", "true")
+  } else {
+    sidebar.classList.add("collapsed")
+    edgeToggle.setAttribute("aria-expanded", "false")
+  }
+}
+
+/**
  * Initialize sidebar functionality
  */
 export function initSidebar() {
   const sidebar = createSidebar()
   const toggle = createSidebarToggle()
+  const edgeToggle = createSidebarEdgeToggle()
   const overlay = createSidebarOverlay()
 
   // Insert sidebar and overlay into DOM
   document.body.appendChild(sidebar)
   document.body.appendChild(toggle)
+  document.body.appendChild(edgeToggle)
   document.body.appendChild(overlay)
 
   // Setup event listeners
   const toggleButton = document.getElementById("sidebar-toggle")
   const closeButton = document.getElementById("sidebar-close")
   const overlayElement = document.getElementById("sidebar-overlay")
+  const edgeToggleButton = document.getElementById("sidebar-edge-toggle")
 
   toggleButton?.addEventListener("click", toggleSidebar)
   closeButton?.addEventListener("click", toggleSidebar)
   overlayElement?.addEventListener("click", toggleSidebar)
+
+  edgeToggleButton?.addEventListener("click", toggleSidebarCollapse)
 
   console.log("[v0] Sidebar initialized")
 }
