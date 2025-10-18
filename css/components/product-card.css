@@ -27,17 +27,122 @@
   justify-content: center;
   padding: var(--space-lg);
   overflow: hidden;
+  position: relative; /* Added for absolute positioning of overlay and buttons */
 }
 
 .product-card-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transition: transform var(--transition-base);
+  transition: transform var(--transition-base), opacity var(--transition-base);
+  position: relative;
+  z-index: 1;
 }
 
 .product-card:hover .product-card-image {
   transform: scale(1.05);
+  opacity: 0.7; /* Dim image on hover */
+}
+
+/* Overlay for dimming effect */
+.product-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color var(--transition-base);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.product-card:hover .product-card-overlay {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Action buttons container */
+.product-card-actions {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  opacity: 0;
+  transform: translateX(10px);
+  transition: opacity var(--transition-base), transform var(--transition-base);
+  z-index: 3;
+}
+
+.product-card:hover .product-card-actions {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Individual action button styles */
+.product-card-action-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border);
+}
+
+.product-card-action-btn:hover {
+  transform: scale(1.1);
+  background-color: var(--accent-green);
+  color: white;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.product-card-action-btn.active {
+  background-color: var(--accent-green);
+  color: white;
+}
+
+.product-card-action-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Product variations section */
+.product-card-variations {
+  position: absolute;
+  bottom: var(--space-md);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: var(--space-xs);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  z-index: 3;
+}
+
+.product-card:hover .product-card-variations {
+  opacity: 1;
+}
+
+.variation-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.variation-swatch:hover {
+  transform: scale(1.2);
+  border-color: var(--accent-green);
 }
 
 .product-card-content {
@@ -111,5 +216,21 @@
 @media (max-width: 640px) {
   .product-card-image-container {
     height: 240px;
+  }
+
+  /* Show action buttons by default on mobile for better accessibility */
+  .product-card-actions {
+    opacity: 0.8;
+    transform: translateX(0);
+  }
+
+  .product-card-action-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* Hide variations on mobile to save space */
+  .product-card-variations {
+    display: none;
   }
 }
