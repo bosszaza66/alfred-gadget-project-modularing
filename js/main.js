@@ -12,6 +12,7 @@ import { initProductGrid } from "./components/ProductGrid.js"
 import { initSidebar } from "./components/Sidebar.js"
 import { renderFooter } from "./components/Footer.js"
 import { renderFloatingButtons } from "./components/FloatingButtons.js"
+import { initModal } from "./components/Modal.js"
 import { CONFIG } from "./config.js"
 import { componentRegistry } from "./utils/componentRegistry.js"
 
@@ -28,6 +29,11 @@ function init() {
 
   // Initialize theme
   initTheme()
+
+  if (!componentRegistry.isInitialized("modal")) {
+    initModal()
+    componentRegistry.register("modal")
+  }
 
   // Render components in order with registry checks
   if (!componentRegistry.isInitialized("navbar")) {

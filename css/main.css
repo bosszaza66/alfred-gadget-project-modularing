@@ -19,3 +19,5 @@
 @import "./components/sidebar.css";
 @import "./components/footer.css";
 @import "./components/floating-buttons.css";
+/* Import modal styles */
+@import "./components/modal.css";

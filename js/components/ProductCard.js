@@ -4,6 +4,7 @@
  */
 
 import { createElement } from "../utils/dom.js"
+import { openModal } from "./Modal.js"
 
 /**
  * Generate star rating HTML
@@ -154,16 +155,18 @@ export function createProductCard(product) {
   card.appendChild(imageContainer)
   card.appendChild(content)
 
-  // Add click handler for future product details page
   card.addEventListener("click", (e) => {
-    // Prevent navigation if clicking the button
-    if (e.target.classList.contains("product-card-button")) {
+    // Prevent navigation if clicking action buttons
+    if (e.target.classList.contains("product-card-button") || e.target.closest(".product-card-action-btn")) {
       e.stopPropagation()
-      console.log("[v0] Add to cart clicked for product:", product.id)
+      if (e.target.classList.contains("product-card-button")) {
+        console.log("[v0] Add to cart clicked for product:", product.id)
+      }
       return
     }
-    console.log("[v0] Product card clicked:", product.id)
-    // Future: Navigate to product details page
+
+    // Open modal with product data
+    openModal(product)
   })
 
   // Event handlers for action buttons
