@@ -1,0 +1,46 @@
+/**
+ * Theme Toggle Component Styles
+ */
+
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-fast);
+}
+
+.theme-toggle:hover {
+  background-color: var(--bg-secondary);
+}
+
+.theme-toggle-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--text-primary);
+  transition: transform var(--transition-base);
+}
+
+.theme-toggle:active .theme-toggle-icon {
+  transform: rotate(180deg);
+}
+
+/* Sun Icon */
+.sun-icon {
+  display: none;
+}
+
+[data-theme="dark"] .sun-icon {
+  display: block;
+}
+
+[data-theme="dark"] .moon-icon {
+  display: none;
+}
+
+/* Moon Icon */
+.moon-icon {
+  display: block;
+}
