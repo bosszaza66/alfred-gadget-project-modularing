@@ -2,8 +2,9 @@
  * Footer Component Styles
  */
 
-/* Added scrolling banner at top of footer */
+/* Ensured footer is static (not fixed) at bottom of page */
 .footer {
+  position: static;
   background-color: var(--bg-primary);
   border-top: 1px solid var(--border);
   padding: 0;

@@ -6,7 +6,7 @@
 import { initTheme } from "./utils/theme.js"
 import { renderNavbar } from "./components/Navbar.js"
 import { renderCategoryMenu } from "./components/CategoryMenu.js"
-import { renderHeroSection } from "./components/HeroSection.js"
+// import { renderHeroSection } from "./components/HeroSection.js"
 import { renderVisionBlocks } from "./components/VisionBlocks.js"
 import { initProductGrid } from "./components/ProductGrid.js"
 import { initSidebar } from "./components/Sidebar.js"
@@ -26,7 +26,7 @@ function init() {
   // Render components in order
   renderNavbar()
   renderCategoryMenu()
-  renderHeroSection()
+  // renderHeroSection()
   renderVisionBlocks()
   initSidebar()
   initProductGrid()

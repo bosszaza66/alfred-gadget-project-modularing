@@ -3,13 +3,21 @@
  * Horizontal scrollable category cards
  */
 
+/* Fixed positioning below navbar with proper spacing and z-index */
 .category-menu {
+  position: fixed;
+  top: var(--navbar-height);
+  left: 0;
+  right: 0;
   width: 100%;
   background-color: var(--bg-primary);
   border-bottom: 1px solid var(--border);
   padding: var(--space-md) 0;
   overflow: hidden;
+  z-index: 1000;
+  transition: background-color var(--transition-base), border-color var(--transition-base);
 }
+/* </CHANGE> */
 
 .category-scroll {
   display: flex;

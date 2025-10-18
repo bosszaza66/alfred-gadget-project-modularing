@@ -11,7 +11,7 @@
   height: var(--navbar-height);
   background-color: var(--bg-primary);
   border-bottom: 1px solid var(--border);
-  z-index: 1000;
+  z-index: 1100;
   transition: background-color var(--transition-base), border-color var(--transition-base);
 }
 

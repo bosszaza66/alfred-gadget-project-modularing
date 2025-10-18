@@ -9,12 +9,12 @@ body {
   flex-direction: column;
 }
 
-/* Page wrapper contains main content and footer */
+/* Updated page wrapper to account for both navbar and category menu heights */
 .page-wrapper {
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-top: var(--navbar-height);
+  margin-top: calc(var(--navbar-height) + 80px);
   transition: margin-left var(--transition-base);
 }
 
@@ -42,7 +42,6 @@ body {
 .product-grid-container {
   padding: var(--space-xl) var(--container-padding);
 }
-/* </CHANGE> */
 
 /* Utility Classes */
 .hidden {
