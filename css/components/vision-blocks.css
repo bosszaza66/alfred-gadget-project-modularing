@@ -6,9 +6,11 @@
 .vision-section {
   width: 100%;
   padding: var(--space-3xl) var(--container-padding);
-  background-color: var(--bg-primary);
+  background-color: var(--bg-secondary);
   display: flex;
   justify-content: center;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .vision-container {

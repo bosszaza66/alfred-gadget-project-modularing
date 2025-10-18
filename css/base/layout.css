@@ -9,14 +9,15 @@ body {
   flex-direction: column;
 }
 
-/* Updated page wrapper to account for both navbar and category menu heights */
+/* Updated page wrapper to properly space sections without overlap */
 .page-wrapper {
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-top: calc(var(--navbar-height) + 80px);
+  margin-top: var(--navbar-height);
   transition: margin-left var(--transition-base);
 }
+/* </CHANGE> */
 
 /* Desktop: adjust for sidebar when visible */
 @media (min-width: 1025px) {
@@ -41,13 +42,29 @@ body {
   /* </CHANGE> */
 }
 
+/* Added clear section separation with proper containers */
+.vision-section,
+.product-grid-container {
+  margin-top: var(--space-2xl);
+  margin-bottom: var(--space-2xl);
+}
+
+/* First section after category menu needs extra top margin */
+.main-content > *:first-child {
+  margin-top: var(--space-3xl);
+}
+/* </CHANGE> */
+
 /* Product grid container has padding */
 .product-grid-container {
   padding: var(--space-xl) var(--container-padding);
-  /* Center the product grid and constrain width */
   max-width: var(--max-width);
   margin: 0 auto;
   width: 100%;
+  /* Added background and border for clear section separation */
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   /* </CHANGE> */
 }
 

@@ -4,7 +4,7 @@
 
 /* Updated navbar to be simpler with logo and actions, search moved to main content area */
 .navbar {
-  position: fixed;
+  position: sticky; /* Changed from fixed to sticky */
   top: 0;
   left: 0;
   right: 0;
@@ -13,6 +13,7 @@
   border-bottom: 1px solid var(--border);
   z-index: 1100;
   transition: background-color var(--transition-base), border-color var(--transition-base);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Added box-shadow */
 }
 
 .navbar-container {
